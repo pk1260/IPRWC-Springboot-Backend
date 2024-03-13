@@ -1,5 +1,6 @@
 package org.example.iprwcspringbootbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,17 +16,22 @@ import java.util.UUID;
 @Entity
 @Table(name="cart_item")
 public class CartItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name="cart_id")
+    @JoinColumn(name = "cart_id")
+    @JsonBackReference
     private Cart cart;
 
-    @Column(name="size_id")
-    private UUID sizeId;
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private Size size;
 
     private int quantity;
 }

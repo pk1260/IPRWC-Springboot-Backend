@@ -16,15 +16,17 @@ public class ProductDAO {
         return productRepository.findAll();
     }
 
+    public Product findById(UUID id){
+        return productRepository.findById(id).orElse(null);
+    }
+
     public Product create(Product product) {
         return productRepository.save(product);
     }
 
-    public Product delete(UUID id) {
-        Product productToDelete = productRepository.findById(id).orElse(null);
-        if (productToDelete == null) return null;
-        productRepository.delete(productToDelete);
-        return productToDelete;
+    public Product delete(UUID id){
+        Product product = productRepository.findById(id).orElse(null);
+        productRepository.deleteById(id);
+        return product;
     }
-
 }

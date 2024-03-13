@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 @RequiredArgsConstructor
 public class DatabaseSeeder {
     private final AdminSeeder adminSeeder;
+    private final ProductSeeder productSeeder;
     private final Logger logger;
 
 
@@ -22,6 +23,7 @@ public class DatabaseSeeder {
         }
         logger.info("Starting database seed.");
         this.adminSeeder.seed();
+        this.productSeeder.seed();
         this.alreadySeeded = true;
     }
 }

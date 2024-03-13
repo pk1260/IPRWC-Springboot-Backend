@@ -1,5 +1,6 @@
 package org.example.iprwcspringbootbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,11 +23,10 @@ public class Product {
     private UUID id;
 
     private String name;
-    private Grade grade;
     private String description;
     private float price;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_id")
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Size> sizes;
 }

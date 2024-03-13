@@ -5,6 +5,7 @@ import org.example.iprwcspringbootbackend.dao.ProductDAO;
 import org.example.iprwcspringbootbackend.model.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -16,26 +17,21 @@ public class ProductController {
 
     private final ProductDAO productDAO;
 
+
     @PostMapping(value = "/create")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<UUID> createProduct(@RequestBody Product product) {
         Product createdProduct = productDAO.create(product);
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdProduct.getId(), HttpStatus.CREATED);
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable("id") String id) {
-        Product deletedProduct = productDAO.delete(UUID.fromString(id));
-        if (deletedProduct == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(deletedProduct, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "/all")
+    @GetMapping
     public ResponseEntity<Iterable<Product>> getAllProducts() {
         Iterable<Product> products = productDAO.findAll();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
-
-
+    @GetMapping(value = "/details/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable("id") UUID id) {
+        Product product = productDAO.findById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
 }
