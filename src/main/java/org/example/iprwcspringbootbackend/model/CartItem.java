@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -14,19 +13,19 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="product")
-public class Product {
+@Table(name="cart_item")
+public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String name;
-    private Grade grade;
-    private String description;
-    private float price;
+    @ManyToOne
+    @JoinColumn(name="cart_id")
+    private Cart cart;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_id")
-    private List<Size> sizes;
+    @Column(name="size_id")
+    private UUID sizeId;
+
+    private int quantity;
 }

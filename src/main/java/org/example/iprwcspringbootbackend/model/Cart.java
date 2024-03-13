@@ -14,19 +14,15 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="product")
-public class Product {
-
+@Table(name="cart")
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String name;
-    private Grade grade;
-    private String description;
-    private float price;
+    @OneToOne
+    private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_id")
-    private List<Size> sizes;
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CartItem> cartItemList;
 }
